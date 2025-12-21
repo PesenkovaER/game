@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 Игра: Неизбежное отчисление - МГПУ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #111;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        
+        .game-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(200, 0, 0, 0.2);
+            border: 1px solid #333;
+            position: relative;
+        }
+        
+        /* Сильная красная шапка МГПУ */
+        .mgpu-header {
+            background: #d32f2f;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            border: 2px solid #ff5252;
+        }
+        
+        .game-title {
+            color: #ff5252;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(255, 82, 82, 0.3);
+        }
+        
+        .game-subtitle {
+            color: #bbb;
+            font-size: 1em;
+            text-align: center;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        
+        .game-content {
+            background: #222;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-size: 16px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: #eee;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .game-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .game-content::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        .game-content::-webkit-scrollbar-thumb {
+            background: #d32f2f;
+            border-radius: 4px;
+        }
+        
+        .game-content::-webkit-scrollbar-thumb:hover {
+            background: #ff5252;
+        }
+        
+        .typing {
+            border-right: 3px solid #ff5252;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { border-color: #ff5252; }
+            50% { border-color: transparent; }
+        }
+        
+        .scene-title {
+            color: #ff5252;
+            font-weight: bold;
+            margin: 15px 0 8px 0;
+            font-size: 1.1em;
+            padding-left: 10px;
+            border-left: 4px solid #ff5252;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .separator {
+            color: #d32f2f;
+            text-align: center;
+            margin: 15px 0;
+            font-weight: bold;
+            font-size: 1.1em;
+            letter-spacing: 2px;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        
+        .choices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .choice-btn {
+            background: #2a2a2a;
+            color: white;
+            border: 2px solid #d32f2f;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .choice-btn:hover {
+            background: #d32f2f;
+            border-color: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 82, 82, 0.4);
+        }
+        
+        .choice-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .choice-number {
+            background: #d32f2f;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+            border: 2px solid #ff5252;
+        }
+        
+        .choice-btn:hover .choice-number {
+            background: white;
+            color: #d32f2f;
+            border-color: white;
+        }
+        
+        .input-section {
+            background: #222;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 2px dashed #d32f2f;
+            text-align: center;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: #ff5252;
+            font-weight: bold;
+        }
+        
+        .name-input {
+            width: 100%;
+            max-width: 350px;
+            padding: 15px 20px;
+            border: 2px solid #d32f2f;
+            border-radius: 8px;
+            background: #333;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .name-input:focus {
+            outline: none;
+            border-color: #ff5252;
+            background: #3a3a3a;
+            box-shadow: 0 0 15px rgba(255, 82, 82, 0.3);
+        }
+        
+        .action-btn {
+            background: linear-gradient(45deg, #d32f2f, #b71c1c);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .action-btn:hover {
+            background: linear-gradient(45deg, #ff5252, #d32f2f);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 82, 82, 0.4);
+        }
+        
+        .restart-section {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .restart-btn {
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            min-width: 200px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .restart-game {
+            background: linear-gradient(45deg, #d32f2f, #b71c1c);
+            color: white;
+        }
+        
+        .exit-game {
+            background: linear-gradient(45deg, #555, #333);
+            color: white;
+        }
+        
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #888;
+            font-size: 0.85em;
+        }
+        
+        .result-text {
+            color: #ff5252;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        
+        .consolation-text {
+            background: rgba(211, 47, 47, 0.1);
+            border-left: 4px solid #ff5252;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #ff8a80;
+        }
+        
+        /* Эффект свечения */
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(255, 82, 82, 0.2);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 20px;
+            }
+            
+            .mgpu-header {
+                padding: 12px 20px;
+                margin-bottom: 20px;
+                font-size: 1em;
+            }
+            
+            .game-title {
+                font-size: 2em;
+            }
+            
+            .game-content {
+                padding: 15px;
+                font-size: 15px;
+            }
+            
+            .choice-btn {
+                padding: 14px 18px;
+                font-size: 15px;
+            }
+            
+            .restart-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .restart-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="mgpu-header">
+            МОСКОВСКИЙ ГОРОДСКОЙ ПЕДАГОГИЧЕСКИЙ УНИВЕРСИТЕТ
+        </div>
+        
+        <h1 class="game-title">🎓 ИГРА: "НЕИЗБЕЖНОЕ ОТЧИСЛЕНИЕ"</h1>
+        <p class="game-subtitle">Ваша история в МГПУ начинается сейчас...</p>
+        
+        <div id="gameContent" class="game-content">
+            <!-- Игровой текст будет здесь -->
+        </div>
+        
+        <div id="inputSection" class="input-section">
+            <h2 class="input-label">👤 Как вас зовут? (можно ввести что угодно, это не спасёт)</h2>
+            <input type="text" id="playerName" class="name-input" placeholder="Введите ваше имя">
+            <button onclick="startGame()" class="action-btn">🚀 НАЧАТЬ ИГРУ</button>
+        </div>
+        
+        <div id="choicesSection" class="choices-container hidden">
+            <!-- Кнопки выбора будут здесь -->
+        </div>
+        
+        <div id="restartSection" class="restart-section hidden">
+            <button onclick="restartGame()" class="restart-btn restart-game">🎮 ПОПРОБОВАТЬ ДРУГОЙ ПУТЬ</button>
+            <button onclick="exitGame()" class="restart-btn exit-game">🚪 ВЫЙТИ ИЗ ИГРЫ</button>
+        </div>
+        
+        <div class="footer">
+            <p>Игра создана на основе реальных событий МГПУ 😄</p>
+            <p>Все совпадения с реальными событиями не случайны</p>
+        </div>
+    </div>
+
+    <script>
+        const CONSOLATIONS = [
+            "✨ Зато теперь у вас есть уникальная история!",
+            "🏛️ Зато не придётся ходить на пары в этот старый корпус.",
+            "🗺️ Думайте об этом как о неожиданном квесте по вузам города.",
+            "🎫 Главное — сохраните студенческий, он ещё пригодится.",
+            "🌪️ Теперь вы свободны как ветер! (по крайней мере, до сентября)",
+            "🎯 Можете говорить, что вас 'зарекрутили' в другой университет.",
+            "📚 Хотя бы не надо будет сдавать сессию в этом вузе!",
+            "🚀 Новый вуз — новые возможности (и новые проблемы).",
+        ];
+        
+        let playerName = "";
+        let isTyping = false;
+        
+        async function typeText(text, speed = 30) {
+            if (isTyping) return;
+            
+            isTyping = true;
+            const gameContent = document.getElementById('gameContent');
+            
+            // Если это новый блок текста, добавляем отступ
+            if (gameContent.textContent && !gameContent.textContent.endsWith('\n\n')) {
+                gameContent.textContent += '\n';
+            }
+            
+            gameContent.classList.add('typing');
+            
+            for (let char of text) {
+                gameContent.textContent += char;
+                gameContent.scrollTop = gameContent.scrollHeight;
+                await new Promise(resolve => setTimeout(resolve, speed));
+            }
+            
+            gameContent.classList.remove('typing');
+            isTyping = false;
+        }
+        
+        function addText(text) {
+            const gameContent = document.getElementById('gameContent');
+            
+            // Добавляем отступ только если предыдущий текст не пустой
+            if (gameContent.textContent && !gameContent.textContent.endsWith('\n')) {
+                gameContent.textContent += '\n';
+            }
+            
+            gameContent.textContent += text;
+            gameContent.scrollTop = gameContent.scrollHeight;
+        }
+        
+        async function addTextWithTyping(text, speed = 30) {
+            await typeText(text, speed);
+        }
+        
+        function clearGameContent() {
+            document.getElementById('gameContent').textContent = '';
+        }
+        
+        function createChoiceButtons(choices, callback) {
+            const choicesSection = document.getElementById('choicesSection');
+            choicesSection.innerHTML = '';
+            
+            choices.forEach((choice, index) => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.innerHTML = `<span class="choice-number">${index + 1}</span>${choice}`;
+                button.onclick = () => callback(index + 1);
+                choicesSection.appendChild(button);
+            });
+            
+            choicesSection.classList.remove('hidden');
+        }
+        
+        async function startGame() {
+            const nameInput = document.getElementById('playerName');
+            playerName = nameInput.value.trim() || "Анонимный студент";
+            
+            document.getElementById('inputSection').classList.add('hidden');
+            document.getElementById('choicesSection').classList.add('hidden');
+            document.getElementById('restartSection').classList.add('hidden');
+            
+            clearGameContent();
+            
+            const welcomeLines = [
+                "🎓 ДОБРО ПОЖАЛОВАТЬ В ИГРУ 'НЕИЗБЕЖНОЕ ОТЧИСЛЕНИЕ'!",
+                "═══════════════════════════════════════════",
+                "Ваш вуз реорганизуют. Всех непедагогов переводят в другие вузы с сентября.",
+                "Судьба предрешена, но путь к ней вы выбираете сами!",
+                "═══════════════════════════════════════════",
+                "",
+                `👋 Отлично, ${playerName}.`,
+                "",
+                "Начинаем вашу историю неизбежного перевода..."
+            ];
+            
+            for (let line of welcomeLines) {
+                if (line === "") {
+                    addText(line);
+                } else {
+                    await typeText(line, 30);
+                }
+                await new Promise(resolve => setTimeout(resolve, 30));
+            }
+            
+            setTimeout(firstChoice, 500);
+        }
+        
+        async function firstChoice() {
+            addText("");
+            await addTextWithTyping("═══════════════════════════════════════════", 10);
+            await addTextWithTyping("ДЕКАБРЬ, ТОЛЬКО ЧТО ОБЪЯВИЛИ НОВОСТЬ", 30);
+            await addTextWithTyping("Декан объявляет о реорганизации. Что делаете?", 30);
+            
+            const choices = [
+                "📋 Срочно идти в учебный отдел выяснять обстоятельства",
+                "👥 Созвать собрание группы для панических действий",
+                "🍽️ Пойти в столовую — там всё равно вкуснее, чем на паре по терверу",
+                "📱 Написать гневный пост в паблике вуза"
+            ];
+            
+            createChoiceButtons(choices, handleFirstChoice);
+        }
+        
+        async function handleFirstChoice(choice) {
+            document.getElementById('choicesSection').classList.add('hidden');
+            
+            addText("");
+            
+            switch(choice) {
+                case 1:
+                    await addTextWithTyping("Вы стоите в очереди в учебном отделе 3 часа.", 30);
+                    await addTextWithTyping("Вам вежливо говорят: 'Всё решится, ждите официальных приказов.'", 30);
+                    setTimeout(officeChoice, 1000);
+                    break;
+                case 2:
+                    await addTextWithTyping("Ваша группа 2 часа горячо обсуждает ситуацию.", 30);
+                    await addTextWithTyping("В итоге решаете написать коллективное письмо ректору.", 30);
+                    setTimeout(letterChoice, 1000);
+                    break;
+                case 3:
+                    await addTextWithTyping("В столовой вы встречаете одногруппников.", 30);
+                    await addTextWithTyping("За разговором и котлетой понимаете, что всё серьёзно.", 30);
+                    setTimeout(canteenChoice, 1000);
+                    break;
+                case 4:
+                    await addTextWithTyping("Пост набирает 500 лайков и 200 гневных комментариев.", 30);
+                    await addTextWithTyping("Вас вызывают к заведующему кафедрой 'на беседу'.", 30);
+                    setTimeout(postChoice, 1000);
+                    break;
+            }
+        }
+        
+        async function officeChoice() {
+            addText("");
+            await addTextWithTyping("═══════════════════════════════════════════", 10);
+            await addTextWithTyping("МАРТ, ВАС ТЕРЗАЮТ СОМНЕНИЯ", 30);
+            await addTextWithTyping("Из министерства пришли первые разъяснения. Ваши действия?", 30);
+            
+            const choices = [
+                "📚 Попытаться перевестись самостоятельно в другой вуз досрочно",
+                "⏳ Остаться и ждать официальных документов",
+                "🎓 Начать ходить на пары к педагогам 'про запас'"
+            ];
+            
+            const results = [
+                "Вы подали документы в три вуза, но везде увидели своих же одногруппников. Система победила.",
+                "Вы храбро ждали. В апреле пришло официальное письмо о переводе. Вы героически дождались.",
+                "Преподаватель-педагог принял вас за своего студента и поставил 'автомат'. Но реорганизация всё равно вас настигла."
+            ];
+            
+            createChoiceButtons(choices, (choice) => gameOver(results[choice - 1]));
+        }
+        
+        async function letterChoice() {
+            addText("");
+            await addTextWithTyping("═══════════════════════════════════════════", 10);
+            await addTextWithTyping("ПИСЬМО ОТПРАВЛЕНО, ОТВЕТА НЕТ 2 НЕДЕЛИ", 30);
+            await addTextWithTyping("Группа в раздумьях. Что предложите?", 30);
+            
+            const choices = [
+                "🎬 Устроить флешмоб с плакатами 'Оставьте наш вуз!'",
+                "⚖️ Найти юриста, чтобы обжаловать решение",
+                "😔 Смириться и начать прощаться с альма-матер"
+            ];
+            
+            const results = [
+                "Ваш флешмоб сняли для местных новостей. Вы стали звездой TikTok, но перевод уже неизбежен.",
+                "Юрист изучил документы и сказал: 'Всё законно, ребята'. Пришлось заплатить за консультацию.",
+                "Вы устроили прощальную вечеринку в аудитории. Охранник составил акт, но вас всё равно переведут в сентябре."
+            ];
+            
+            createChoiceButtons(choices, (choice) => gameOver(results[choice - 1]));
+        }
+        
+        async function canteenChoice() {
+            addText("");
+            await addTextWithTyping("═══════════════════════════════════════════", 10);
+            await addTextWithTyping("ФЕВРАЛЬ, В СТОЛОВОЙ СТАЛИ ЭКОНОМИТЬ НА ПОРЦИЯХ", 30);
+            await addTextWithTyping("Ходят слухи, что поваров тоже куда-то переводят. Ваш ход?", 30);
+            
+            const choices = [
+                "🍔 Организовать 'вкусный бунт' за качество еды",
+                "🍜 Забить и перейти на дошираки до конца семестра",
+                "👨‍🍳 Предложить поварам устроиться вместе в новый вуз"
+            ];
+            
+            const results = [
+                "Вы потребовали лучше кормить студентов. Вам вежливо пообещали. А в сентябре вы окажетесь в вузе с ещё худшей столовой.",
+                "Вы 3 месяца питались лапшой. К моменту перевода у вас был гастрит и новый вуз.",
+                "Повара рассмеялись и дали вам дополнительную порцию пюре. Но от перевода это не спасло."
+            ];
+            
+            createChoiceButtons(choices, (choice) => gameOver(results[choice - 1]));
+        }
+        
+        async function postChoice() {
+            addText("");
+            await addTextWithTyping("═══════════════════════════════════════════", 10);
+            await addTextWithTyping("ВАС ВЫЗВАЛИ К ЗАВКАФЕДРОЙ. ОН УЛЫБАЕТСЯ.", 30);
+            await addTextWithTyping("Он говорит: 'Мы ценим вашу активность, но ситуация не в наших руках...' Что ответите?", 30);
+            
+            const choices = [
+                "🙏 Извиниться и удалить пост",
+                "💪 Настоять на своём и требовать чёткого ответа",
+                "🧑‍🏫 Спросить, возьмут ли вас на педагогическое направление"
+            ];
+            
+            const results = [
+                "Вы извинились. Пост удалили. Через месяц завкафедру тоже перевели. Ирония судьбы.",
+                "Вы потребовали ответа. Вам его дали: 'Таков приказ министерства'. Вы исчерпали аргументы.",
+                "Завкафедра посмотрел на ваши оценки и вежливо сказал: 'У вас нет педагогического призвания'. Вы поняли намёк."
+            ];
+            
+            createChoiceButtons(choices, (choice) => gameOver(results[choice - 1]));
+        }
+        
+        async function gameOver(reason) {
+            document.getElementById('choicesSection').classList.add('hidden');
+            
+            addText("");
+            await addTextWithTyping("═══════════════════════════════════════════", 10);
+            await addTextWithTyping("💀 ИТОГ:", 30);
+            await addTextWithTyping(reason, 30);
+            await addTextWithTyping("Вас переводят в другой вуз с сентября. Поздравляем с 'поступлением'!", 30);
+            await addTextWithTyping("═══════════════════════════════════════════", 10);
+            
+            const randomConsolation = CONSOLATIONS[Math.floor(Math.random() * CONSOLATIONS.length)];
+            addText("");
+            addText(`<div class="consolation-text">${randomConsolation}</div>`);
+            
+            setTimeout(() => {
+                document.getElementById('restartSection').classList.remove('hidden');
+            }, 1000);
+        }
+        
+        function restartGame() {
+            document.getElementById('restartSection').classList.add('hidden');
+            document.getElementById('choicesSection').classList.add('hidden');
+            document.getElementById('inputSection').classList.remove('hidden');
+            
+            document.getElementById('playerName').value = "";
+            document.getElementById('playerName').focus();
+            
+            clearGameContent();
+        }
+        
+        function exitGame() {
+            addText("");
+            addText("🎓 Спасибо за игру! Удачи в новом вузе!");
+        }
+        
+        window.onload = function() {
+            document.getElementById('playerName').focus();
+            
+            document.getElementById('playerName').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    startGame();
+                }
+            });
+        };
+    </script>
+</body>
+</html>
