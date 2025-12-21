@@ -636,8 +636,17 @@
             await addTextWithTyping("═══════════════════════════════════════════", 10);
             
             const randomConsolation = CONSOLATIONS[Math.floor(Math.random() * CONSOLATIONS.length)];
-            addText("");
-            addText(`<div class="consolation-text">${randomConsolation}</div>`);
+            
+            // Добавляем утешительный текст как HTML-элемент
+            const gameContent = document.getElementById('gameContent');
+            gameContent.innerHTML += '\n'; // Добавляем перенос строки
+            
+            const consolationDiv = document.createElement('div');
+            consolationDiv.className = 'consolation-text';
+            consolationDiv.textContent = randomConsolation;
+            gameContent.appendChild(consolationDiv);
+            
+            gameContent.scrollTop = gameContent.scrollHeight;
             
             setTimeout(() => {
                 document.getElementById('restartSection').classList.remove('hidden');
