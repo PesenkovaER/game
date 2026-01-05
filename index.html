@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои Игры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        header {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .game-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .game-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .game-card h2 {
+            color: #2196f3;
+            margin-bottom: 10px;
+        }
+        
+        .game-card p {
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Моя Коллекция Игр</h1>
+            <p>Интерактивные игры на HTML, CSS и JavaScript</p>
+        </header>
+        
+        <div class="games-grid">
+            <a href="marry-me.html" class="game-card">
+                <div class="game-icon">💍</div>
+                <h2>Давай поженимся!</h2>
+                <p>Собери образ девушки и найди идеальную пару. Выбирай наряд, макияж, настроение и знакомься с парнями разных профессий!</p>
+            </a>
+            
+            <!-- Можете добавить другие игры позже -->
+            <div class="game-card" style="opacity: 0.7;">
+                <div class="game-icon">🎮</div>
+                <h2>Скоро...</h2>
+                <p>Новые игры появятся здесь в ближайшее время</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Создано с ❤️ | Игры работают прямо в браузере</p>
+        </footer>
+    </div>
+</body>
+</html>
