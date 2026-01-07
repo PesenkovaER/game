@@ -9,64 +9,68 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #2c3e50, #4a235a);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #fff;
             min-height: 100vh;
             padding: 20px;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
         
-        .game-title {
+        .header {
             text-align: center;
-            font-size: 3rem;
-            margin-bottom: 10px;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .game-title {
+            font-size: 3.5rem;
             color: #ff9ff3;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 0 20px rgba(255, 159, 243, 0.5);
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff9ff3, #f368e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .subtitle {
-            text-align: center;
+            font-size: 1.3rem;
             color: #a29bfe;
-            margin-bottom: 30px;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
         }
         
         .game-container {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
             gap: 30px;
             margin-bottom: 30px;
         }
         
-        .character-customization {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+        /* Левая панель - создание персонажа */
+        .character-section {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 25px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        
-        .date-section {
-            flex: 2;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
         }
         
         .section-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #74b9ff;
             margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #74b9ff;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(116, 185, 255, 0.3);
+            text-align: center;
         }
         
         .character-preview {
@@ -76,112 +80,177 @@
             margin-bottom: 30px;
         }
         
-        .character-canvas {
-            width: 300px;
-            height: 450px;
-            background: #1e272e;
-            border-radius: 15px;
-            margin-bottom: 20px;
+        .character-display {
+            width: 320px;
+            height: 480px;
             position: relative;
+            margin-bottom: 20px;
+            border-radius: 20px;
             overflow: hidden;
-            border: 3px solid #ff9ff3;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #0f3460, #1a1a2e);
         }
         
-        .character-part {
+        .character-layer {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background-size: contain;
             background-repeat: no-repeat;
-            background-position: center;
+            background-position: center 80%;
         }
         
-        .customization-options {
+        .base-character {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><style>.skin{fill:%23FFD8B1;}.eye{fill:%234169E1;}.lip{fill:%23E75480;}</style><ellipse cx="100" cy="220" rx="50" ry="70" fill="%230f3460" opacity="0.3"/><circle cx="100" cy="120" r="30" class="skin"/><ellipse cx="85" cy="115" rx="5" ry="7" class="eye"/><ellipse cx="115" cy="115" rx="5" ry="7" class="eye"/><path d="M85,140 Q100,150 115,140" stroke="%23E75480" stroke-width="3" fill="none"/></svg>');
+            z-index: 1;
+        }
+        
+        .hair-layer {
+            z-index: 2;
+        }
+        
+        .dress-layer {
+            z-index: 3;
+        }
+        
+        .makeup-layer {
+            z-index: 4;
+            opacity: 0.7;
+        }
+        
+        .accessory-layer {
+            z-index: 5;
+        }
+        
+        .mood-display {
+            margin-top: 10px;
+            text-align: center;
+            color: #ff9ff3;
+            font-size: 1.2rem;
+        }
+        
+        .mood-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .mood-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .mood-option.active {
+            opacity: 1;
+            transform: scale(1.2);
+            border-color: white;
+        }
+        
+        .mood-1 { background: #ff3838; }
+        .mood-2 { background: #ff9f1a; }
+        .mood-3 { background: #f9ca24; }
+        .mood-4 { background: #7efff5; }
+        .mood-5 { background: #32ff7e; }
+        
+        .customization-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
         
-        .option-group {
+        .category {
             background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
             padding: 20px;
-            border-radius: 10px;
         }
         
-        .option-title {
+        .category-title {
             color: #00cec9;
+            font-size: 1.3rem;
             margin-bottom: 15px;
-            font-size: 1.2rem;
+            text-align: center;
         }
         
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        .options {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
         }
         
-        .option-item {
+        .option {
+            padding: 12px 20px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 10px;
+            border-radius: 10px;
             cursor: pointer;
-            text-align: center;
             transition: all 0.3s;
+            text-align: center;
             border: 2px solid transparent;
         }
         
-        .option-item:hover {
-            transform: scale(1.05);
-            border-color: #ff9ff3;
+        .option:hover {
+            background: rgba(116, 185, 255, 0.2);
+            transform: translateY(-2px);
         }
         
-        .option-item.selected {
+        .option.selected {
             background: rgba(255, 159, 243, 0.3);
             border-color: #ff9ff3;
         }
         
-        .slider-container {
-            margin-top: 10px;
-        }
-        
-        .slider {
-            width: 100%;
-            height: 10px;
-            -webkit-appearance: none;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            outline: none;
-        }
-        
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #ff9ff3;
-            cursor: pointer;
+        /* Правая панель - свидание */
+        .date-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
         
         .current-guy {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 25px;
             padding: 25px;
-            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
         }
         
-        .guy-image {
-            flex: 1;
-            height: 300px;
-            background: #1e272e;
-            border-radius: 15px;
+        .guy-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #74b9ff;
-            border: 3px solid #74b9ff;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .guy-avatar {
+            width: 180px;
+            height: 240px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(45deg, #0f3460, #1a1a2e);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .guy-visual {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center 80%;
         }
         
         .guy-info {
@@ -189,7 +258,7 @@
         }
         
         .guy-name {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: #74b9ff;
             margin-bottom: 15px;
         }
@@ -198,10 +267,9 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin-bottom: 20px;
         }
         
-        .stat {
+        .guy-stat {
             background: rgba(116, 185, 255, 0.1);
             padding: 15px;
             border-radius: 10px;
@@ -210,7 +278,7 @@
         
         .stat-label {
             color: #a29bfe;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             margin-bottom: 5px;
         }
         
@@ -221,20 +289,63 @@
         }
         
         .dialog-container {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 25px;
             padding: 25px;
-            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .dialog-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
         }
         
-        .dialog-message {
-            padding: 20px;
-            background: rgba(116, 185, 255, 0.1);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            min-height: 100px;
-            font-size: 1.1rem;
+        .speaker-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .zlata-avatar {
+            background: linear-gradient(45deg, #ff9ff3, #f368e0);
+        }
+        
+        .guy-avatar-small {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+        }
+        
+        .speaker-name {
+            font-size: 1.5rem;
+            color: #74b9ff;
+        }
+        
+        .zlata-name {
+            color: #ff9ff3;
+        }
+        
+        .message-content {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            min-height: 120px;
+            font-size: 1.2rem;
             line-height: 1.6;
+            border-left: 4px solid #74b9ff;
+        }
+        
+        .zlata-message {
+            border-left-color: #ff9ff3;
         }
         
         .responses {
@@ -243,43 +354,101 @@
             gap: 15px;
         }
         
-        .response-btn {
+        .response-option {
             padding: 18px 25px;
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(116, 185, 255, 0.3);
             color: #fff;
-            border-radius: 10px;
+            border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s;
             font-size: 1.1rem;
             text-align: left;
         }
         
-        .response-btn:hover {
+        .response-option:hover {
             background: rgba(116, 185, 255, 0.2);
-            transform: translateY(-2px);
-            border-color: #74b9ff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(116, 185, 255, 0.2);
         }
         
-        .control-buttons {
+        .zlata-question {
+            background: rgba(255, 159, 243, 0.1);
+            border-color: rgba(255, 159, 243, 0.3);
+        }
+        
+        .zlata-question:hover {
+            background: rgba(255, 159, 243, 0.2);
+            border-color: #ff9ff3;
+        }
+        
+        .compatibility-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .compatibility-display {
+            text-align: center;
+        }
+        
+        .compatibility-meter {
+            height: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .compatibility-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff3838, #ff9f1a, #32ff7e);
+            border-radius: 10px;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .compatibility-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            background: linear-gradient(45deg, #ff9ff3, #74b9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .compatibility-text {
+            font-size: 1.1rem;
+            color: #a29bfe;
+        }
+        
+        .controls {
             display: flex;
             gap: 15px;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         
         .control-btn {
-            padding: 15px 30px;
+            padding: 18px 35px;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            font-weight: bold;
+            min-width: 200px;
         }
         
-        .find-btn {
+        .primary-btn {
             background: linear-gradient(45deg, #ff9ff3, #f368e0);
+            color: white;
+        }
+        
+        .secondary-btn {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
             color: white;
         }
         
@@ -289,138 +458,152 @@
             border: 2px solid #a29bfe;
         }
         
-        .next-btn {
-            background: linear-gradient(45deg, #74b9ff, #0984e3);
-            color: white;
-        }
-        
         .control-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        
-        .compatibility-meter {
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            margin-top: 20px;
-            overflow: hidden;
-        }
-        
-        .compatibility-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff3838, #ff9f1a, #32ff7e);
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-        
-        .compatibility-text {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 1.2rem;
-            color: #32ff7e;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
         
         .hidden {
             display: none;
         }
         
-        .mood-indicator {
+        .date-phase {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
-        .mood-dot {
-            width: 15px;
-            height: 15px;
+        .phase-step {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            cursor: pointer;
-            opacity: 0.5;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #a29bfe;
             transition: all 0.3s;
         }
         
-        .mood-dot.active {
-            opacity: 1;
-            transform: scale(1.2);
+        .phase-step.active {
+            background: #74b9ff;
+            color: white;
+            transform: scale(1.1);
         }
         
-        .mood-1 { background: #ff3838; } /* Злой */
-        .mood-2 { background: #ff9f1a; } /* Раздраженный */
-        .mood-3 { background: #f9ca24; } /* Нейтральный */
-        .mood-4 { background: #7efff5; } /* Спокойный */
-        .mood-5 { background: #32ff7e; } /* Счастливый */
+        @media (max-width: 1400px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .character-display, .guy-avatar {
+                width: 280px;
+                height: 420px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                gap: 20px;
+            }
+            
+            .guy-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .customization-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .control-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="game-title">Fashion Date Simulator</h1>
-        <div class="subtitle">Создай образ, выбери настроение и найди свою пару!</div>
+        <div class="header">
+            <h1 class="game-title">Fashion Date Simulator</h1>
+            <div class="subtitle">Создай образ, выбери настроение и найди свою пару!</div>
+        </div>
         
         <div class="game-container">
-            <!-- Левая панель - создание персонажа -->
-            <div class="character-customization">
-                <h2 class="section-title">Создай свой образ</h2>
+            <!-- Левая панель - создание образа Златы -->
+            <div class="character-section">
+                <h2 class="section-title">Создай образ Златы</h2>
                 
                 <div class="character-preview">
-                    <div class="character-canvas" id="characterCanvas">
-                        <!-- Части персонажа будут добавлены через JS -->
+                    <div class="character-display">
+                        <div class="character-layer base-character"></div>
+                        <div class="character-layer hair-layer" id="hairLayer"></div>
+                        <div class="character-layer dress-layer" id="dressLayer"></div>
+                        <div class="character-layer makeup-layer" id="makeupLayer"></div>
+                        <div class="character-layer accessory-layer" id="accessoryLayer"></div>
                     </div>
-                    <div class="mood-indicator" id="moodIndicator">
-                        <div class="mood-dot mood-1 active" data-mood="1"></div>
-                        <div class="mood-dot mood-2" data-mood="2"></div>
-                        <div class="mood-dot mood-3" data-mood="3"></div>
-                        <div class="mood-dot mood-4" data-mood="4"></div>
-                        <div class="mood-dot mood-5" data-mood="5"></div>
+                    
+                    <div class="mood-display">
+                        Настроение: <span id="currentMoodText">Нейтральная</span>
+                    </div>
+                    
+                    <div class="mood-indicator">
+                        <div class="mood-option mood-1 active" data-mood="1" title="Злая">😠</div>
+                        <div class="mood-option mood-2" data-mood="2" title="Раздраженная">😒</div>
+                        <div class="mood-option mood-3" data-mood="3" title="Нейтральная">😐</div>
+                        <div class="mood-option mood-4" data-mood="4" title="Спокойная">😌</div>
+                        <div class="mood-option mood-5" data-mood="5" title="Счастливая">😊</div>
                     </div>
                 </div>
                 
-                <div class="customization-options">
-                    <!-- Прическа -->
-                    <div class="option-group">
-                        <h3 class="option-title">Прическа</h3>
-                        <div class="options-grid" id="hairOptions">
-                            <div class="option-item selected" data-hair="1">Прямые</div>
-                            <div class="option-item" data-hair="2">Волны</div>
-                            <div class="option-item" data-hair="3">Кудри</div>
-                            <div class="option-item" data-hair="4">Пучок</div>
-                            <div class="option-item" data-hair="5">Хвост</div>
+                <div class="customization-grid">
+                    <div class="category">
+                        <h3 class="category-title">Прическа</h3>
+                        <div class="options" id="hairOptions">
+                            <div class="option selected" data-hair="1">Прямые волосы</div>
+                            <div class="option" data-hair="2">Волнистые волосы</div>
+                            <div class="option" data-hair="3">Кудрявые волосы</div>
+                            <div class="option" data-hair="4">Высокий хвост</div>
+                            <div class="option" data-hair="5">Прическа с ободком</div>
                         </div>
                     </div>
                     
-                    <!-- Платье -->
-                    <div class="option-group">
-                        <h3 class="option-title">Платье</h3>
-                        <div class="options-grid" id="dressOptions">
-                            <div class="option-item selected" data-dress="1">Вечернее</div>
-                            <div class="option-item" data-dress="2">Коктейльное</div>
-                            <div class="option-item" data-dress="3">Повседневное</div>
-                            <div class="option-item" data-dress="4">Деловое</div>
-                            <div class="option-item" data-dress="5">Романтичное</div>
+                    <div class="category">
+                        <h3 class="category-title">Платье</h3>
+                        <div class="options" id="dressOptions">
+                            <div class="option selected" data-dress="1">Элегантное вечернее</div>
+                            <div class="option" data-dress="2">Коктейльное платье</div>
+                            <div class="option" data-dress="3">Повседневное платье</div>
+                            <div class="option" data-dress="4">Деловой костюм</div>
+                            <div class="option" data-dress="5">Романтичное платье</div>
                         </div>
                     </div>
                     
-                    <!-- Макияж -->
-                    <div class="option-group">
-                        <h3 class="option-title">Макияж</h3>
-                        <div class="options-grid" id="makeupOptions">
-                            <div class="option-item selected" data-makeup="1">Естественный</div>
-                            <div class="option-item" data-makeup="2">Вечерний</div>
-                            <div class="option-item" data-makeup="3">Драматичный</div>
-                            <div class="option-item" data-makeup="4">Минимальный</div>
-                            <div class="option-item" data-makeup="5">Яркий</div>
+                    <div class="category">
+                        <h3 class="category-title">Макияж</h3>
+                        <div class="options" id="makeupOptions">
+                            <div class="option selected" data-makeup="1">Естественный макияж</div>
+                            <div class="option" data-makeup="2">Вечерний макияж</div>
+                            <div class="option" data-makeup="3">Драматичный макияж</div>
+                            <div class="option" data-makeup="4">Минимальный макияж</div>
+                            <div class="option" data-makeup="5">Яркий праздничный</div>
                         </div>
                     </div>
                     
-                    <!-- Аксессуары -->
-                    <div class="option-group">
-                        <h3 class="option-title">Аксессуары</h3>
-                        <div class="options-grid" id="accessoryOptions">
-                            <div class="option-item selected" data-accessory="1">Серьги</div>
-                            <div class="option-item" data-accessory="2">Ожерелье</div>
-                            <div class="option-item" data-accessory="3">Браслет</div>
-                            <div class="option-item" data-accessory="4">Брошь</div>
-                            <div class="option-item" data-accessory="5">Кольцо</div>
+                    <div class="category">
+                        <h3 class="category-title">Аксессуары</h3>
+                        <div class="options" id="accessoryOptions">
+                            <div class="option selected" data-accessory="1">Серебряные серьги</div>
+                            <div class="option" data-accessory="2">Жемчужное ожерелье</div>
+                            <div class="option" data-accessory="3">Элегантный браслет</div>
+                            <div class="option" data-accessory="4">Диадема</div>
+                            <div class="option" data-accessory="5">Цветок в волосах</div>
                         </div>
                     </div>
                 </div>
@@ -428,624 +611,822 @@
             
             <!-- Правая панель - свидание -->
             <div class="date-section">
-                <h2 class="section-title">Свидание</h2>
-                
-                <div class="current-guy hidden" id="currentGuy">
-                    <div class="guy-image" id="guyImage">
-                        <!-- Изображение парня -->
-                    </div>
-                    <div class="guy-info">
-                        <div class="guy-name" id="guyName">Алексей</div>
-                        <div class="guy-stats">
-                            <div class="stat">
-                                <div class="stat-label">Профессия</div>
-                                <div class="stat-value" id="guyProfession">Программист</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-label">Характер</div>
-                                <div class="stat-value" id="guyPersonality">Интроверт</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-label">Возраст</div>
-                                <div class="stat-value" id="guyAge">28 лет</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-label">Интересы</div>
-                                <div class="stat-value" id="guyInterests">IT, музыка</div>
+                <div class="current-guy hidden" id="currentGuySection">
+                    <div class="guy-header">
+                        <div class="guy-avatar">
+                            <div class="guy-visual" id="guyVisual"></div>
+                        </div>
+                        <div class="guy-info">
+                            <div class="guy-name" id="guyName">Кандидат</div>
+                            <div class="guy-stats">
+                                <div class="guy-stat">
+                                    <div class="stat-label">Профессия</div>
+                                    <div class="stat-value" id="guyProfession">-</div>
+                                </div>
+                                <div class="guy-stat">
+                                    <div class="stat-label">Возраст</div>
+                                    <div class="stat-value" id="guyAge">-</div>
+                                </div>
+                                <div class="guy-stat">
+                                    <div class="stat-label">Характер</div>
+                                    <div class="stat-value" id="guyPersonality">-</div>
+                                </div>
+                                <div class="guy-stat">
+                                    <div class="stat-label">Интересы</div>
+                                    <div class="stat-value" id="guyInterests">-</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="dialog-container">
-                    <div class="dialog-message" id="dialogMessage">
-                        Привет! Меня зовут Алексей. Ты сегодня прекрасно выглядишь!
+                    <div class="date-phase" id="datePhase">
+                        <div class="phase-step">1</div>
+                        <div class="phase-step">2</div>
+                        <div class="phase-step">3</div>
+                    </div>
+                    
+                    <div id="dialogContent">
+                        <div class="dialog-header">
+                            <div class="speaker-avatar zlata-avatar">З</div>
+                            <div class="speaker-name zlata-name">Злата</div>
+                        </div>
+                        <div class="message-content zlata-message" id="messageText">
+                            Создай свой образ для свидания и нажми "Найти свидание" чтобы начать!
+                        </div>
                     </div>
                     
                     <div class="responses" id="responses">
-                        <!-- Ответы будут генерироваться через JS -->
+                        <!-- Ответы будут генерироваться здесь -->
                     </div>
                     
-                    <div class="compatibility-meter">
-                        <div class="compatibility-fill" id="compatibilityFill" style="width: 0%"></div>
-                    </div>
-                    <div class="compatibility-text" id="compatibilityText">
-                        Совместимость: 0%
+                    <div class="compatibility-section hidden" id="compatibilitySection">
+                        <div class="compatibility-display">
+                            <div class="compatibility-value" id="compatibilityValue">0%</div>
+                            <div class="compatibility-meter">
+                                <div class="compatibility-fill" id="compatibilityFill" style="width: 0%"></div>
+                            </div>
+                            <div class="compatibility-text" id="compatibilityText">Совместимость</div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="control-buttons">
-                    <button class="control-btn find-btn" id="findDateBtn">Найти свидание</button>
-                    <button class="control-btn next-btn hidden" id="nextDateBtn">Следующий парень</button>
-                    <button class="control-btn reset-btn" id="resetBtn">Начать заново</button>
+                <div class="controls">
+                    <button class="control-btn primary-btn" id="findDateBtn">Найти свидание</button>
+                    <button class="control-btn secondary-btn hidden" id="nextDateBtn">Следующий кандидат</button>
+                    <button class="control-btn reset-btn" id="resetBtn">Новая игра</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Данные игры
-        const gameData = {
-            // Данные девушки
-            girl: {
+        // Базы данных для игры
+        const GAME_DATA = {
+            // Внешность Златы
+            zlata: {
                 hair: 1,
                 dress: 1,
                 makeup: 1,
                 accessory: 1,
-                mood: 3, // Нейтральное настроение по умолчанию
-                name: "София"
+                mood: 3,
+                name: "Злата"
             },
             
-            // База данных парней
-            guys: [
-                {
-                    name: "Алексей",
-                    age: 28,
-                    profession: "Программист",
-                    personality: "интроверт",
-                    interests: ["IT", "музыка", "видеоигры"],
-                    questions: [
-                        "Что ты думаешь о современных технологиях?",
-                        "Как проводишь выходные?"
-                    ],
-                    girlQuestions: [
-                        "Какую музыку ты любишь?",
-                        "Чем увлекаешься?"
-                    ],
-                    responses: {
-                        positive: ["Отличный выбор!", "Мы похожи!", "Интересно!"],
-                        neutral: ["Понятно...", "Хм, интересно", "Любопытно"],
-                        negative: ["Неожиданно...", "Странный выбор", "Не думал, что так"]
-                    }
-                },
-                {
-                    name: "Максим",
-                    age: 32,
-                    profession: "Бизнесмен",
-                    personality: "лидер",
-                    interests: ["бизнес", "спорт", "автомобили"],
-                    questions: [
-                        "Как относишься к карьерным амбициям?",
-                        "Любишь экстрим?"
-                    ],
-                    girlQuestions: [
-                        "Есть ли у тебя цели в жизни?",
-                        "Как относишься к риску?"
-                    ],
-                    responses: {
-                        positive: ["Вот это да!", "Идеально!", "Ты меня понимаешь!"],
-                        neutral: ["Интересная позиция", "Заметим", "Любопытно"],
-                        negative: ["Слабовато...", "Не по-взрослому", "Жаль"]
-                    }
-                },
-                {
-                    name: "Дмитрий",
-                    age: 26,
-                    profession: "Дизайнер",
-                    personality: "творческий",
-                    interests: ["искусство", "фотография", "путешествия"],
-                    questions: [
-                        "Что для тебя значит красота?",
-                        "Любишь ли ты искусство?"
-                    ],
-                    girlQuestions: [
-                        "Что вдохновляет тебя?",
-                        "Какое твое любимое место в городе?"
-                    ],
-                    responses: {
-                        positive: ["Великолепно!", "Ты читаешь мои мысли!", "Идеально!"],
-                        neutral: ["Интересно...", "Необычно", "Запоминаю"],
-                        negative: ["Скучновато...", "Ожидал большего", "Не впечатляет"]
-                    }
-                },
-                {
-                    name: "Артем",
-                    age: 30,
-                    profession: "Врач",
-                    personality: "заботливый",
-                    interests: ["медицина", "природа", "кулинария"],
-                    questions: [
-                        "Как ты относишься к заботе о других?",
-                        "Важно ли для тебя здоровье?"
-                    ],
-                    girlQuestions: [
-                        "Умеешь ли ты готовить?",
-                        "Любишь ли природу?"
-                    ],
-                    responses: {
-                        positive: ["Это прекрасно!", "Ты особенная!", "Восхитительно!"],
-                        neutral: ["Полезно знать", "Интересно", "Хорошо"],
-                        negative: ["Жаль...", "Не совсем то", "Ожидал другого"]
-                    }
-                },
-                {
-                    name: "Игорь",
-                    age: 29,
-                    profession: "Спортсмен",
-                    personality: "активный",
-                    interests: ["спорт", "приключения", "танцы"],
-                    questions: [
-                        "Любишь ли активный отдых?",
-                        "Как относишься к спорту?"
-                    ],
-                    girlQuestions: [
-                        "Любишь танцевать?",
-                        "Часто путешествуешь?"
-                    ],
-                    responses: {
-                        positive: ["Отлично!", "Энергично!", "Зажигательно!"],
-                        neutral: ["Неплохо", "Будет сносно", "Примем к сведению"],
-                        negative: ["Слабовато...", "Не хватает энергии", "Скучновато"]
-                    }
-                }
-            ],
+            // Сгенерированные парни
+            generatedGuys: [],
             
-            // Текущий парень
+            // Текущее состояние игры
             currentGuy: null,
             currentQuestionIndex: 0,
             compatibility: 0,
-            datePhase: 0, // 0 - начало, 1 - вопросы парня, 2 - вопросы девушки, 3 - конец
+            datePhase: 0,
+            askedQuestions: 0,
             
-            // Описания настроений
-            moods: [
-                "Злое",
-                "Раздраженное",
-                "Нейтральное",
-                "Спокойное",
-                "Счастливое"
-            ],
+            // Настроения
+            moods: ["Злая", "Раздраженная", "Нейтральная", "Спокойная", "Счастливая"],
             
-            // Описания для внешности
-            hairStyles: ["Прямые волосы", "Волнистые волосы", "Кудрявые волосы", "Прическа в пучок", "Высокий хвост"],
-            dresses: ["Элегантное вечернее платье", "Стильное коктейльное платье", "Уютное повседневное платье", "Деловой костюм", "Романтичное платье с кружевом"],
-            makeupStyles: ["Естественный макияж", "Вечерний макияж с акцентом на глаза", "Драматичный макияж с красной помадой", "Минимальный макияж", "Яркий макияж с блестками"],
-            accessories: ["Серебряные серьги", "Золотое ожерелье", "Изящный браслет", "Элегантная брошь", "Кольцо с камнем"]
+            // Визуальные стили для Златы
+            visualStyles: {
+                hair: [
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.hair{fill:%23FFD700;}</style><path d=\'M70,100 Q100,70 130,100 L130,170 Q100,150 70,170 Z\' class=\"hair\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.hair{fill:%23F4D03F;}</style><path d=\'M70,95 Q85,70 100,75 Q115,70 130,95 L130,160 Q100,145 70,160 Z\' class=\"hair\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.hair{fill:%23F7DC6F;}</style><path d=\'M70,95 Q80,70 100,80 Q120,70 130,95 Q135,120 100,140 Q65,120 70,95\' class=\"hair\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.hair{fill:%23F8C471;}</style><path d=\'M100,95 Q90,80 105,70 Q120,80 115,95 Q120,110 100,130 Q80,110 85,95 Z\' class=\"hair\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.hair{fill:%23F0B27A;}</style><path d=\'M70,95 Q85,85 100,90 Q115,85 130,95 L125,140 Q100,130 75,140 Z\' class=\"hair\"/></svg>")'
+                ],
+                
+                dresses: [
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.dress{fill:%231a237e;}</style><path d=\'M60,180 Q100,250 140,180 L140,220 Q100,290 60,220 Z\' class=\"dress\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.dress{fill:%234a148c;}</style><path d=\'M70,180 Q100,210 130,180 L130,220 Q100,240 70,220 Z\' class=\"dress\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.dress{fill:%2301579b;}</style><path d=\'M75,185 Q100,200 125,185 L125,220 Q100,230 75,220 Z\' class=\"dress\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.dress{fill:%2333691e;}</style><rect x=\"70\" y=\"180\" width=\"60\" height=\"40\" class=\"dress\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.dress{fill:%23880e4f;}</style><path d=\'M65,175 Q100,200 135,175 Q140,190 135,220 Q100,240 65,220 Q60,190 65,175\' class=\"dress\"/></svg>")'
+                ],
+                
+                makeup: [
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.makeup{fill:%23f8bbd0;opacity:0.3;}</style><ellipse cx=\"100\" cy=\"120\" rx=\"28\" ry=\"30\" class=\"makeup\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.eye{fill:%23e91e63;}.lip{fill:%23e91e63;}</style><ellipse cx=\"85\" cy=\"115\" rx=\"6\" ry=\"4\" class=\"eye\"/><ellipse cx=\"115\" cy=\"115\" rx=\"6\" ry=\"4\" class=\"eye\"/><path d=\"M85,135 Q100,145 115,135\" stroke=\"%23e91e63\" stroke-width=\"4\" fill=\"none\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.eye{fill:%23c2185b;}.lip{fill:%23c2185b;}</style><ellipse cx=\"85\" cy=\"115\" rx=\"8\" ry=\"5\" class=\"eye\"/><ellipse cx=\"115\" cy=\"115\" rx=\"8\" ry=\"5\" class=\"eye\"/><path d=\"M85,130 Q100,140 115,130\" stroke=\"%23c2185b\" stroke-width=\"5\" fill=\"none\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.makeup{fill:%23ad1457;opacity:0.2;}</style><ellipse cx=\"100\" cy=\"120\" rx=\"25\" ry=\"27\" class=\"makeup\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.glitter{fill:%23ffeb3b;opacity:0.6;}</style><circle cx=\"100\" cy=\"120\" r=\"2\" class=\"glitter\"/><circle cx=\"90\" cy=\"115\" r=\"2\" class=\"glitter\"/><circle cx=\"110\" cy=\"115\" r=\"2\" class=\"glitter\"/><circle cx=\"100\" cy=\"130\" r=\"2\" class=\"glitter\"/></svg>")'
+                ],
+                
+                accessories: [
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.accessory{fill:%23b39ddb;}</style><circle cx=\"85\" cy=\"130\" r=\"3\" class=\"accessory\"/><circle cx=\"115\" cy=\"130\" r=\"3\" class=\"accessory\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.accessory{fill:%239575cd;}</style><circle cx=\"100\" cy=\"145\" r=\"4\" class=\"accessory\"/><circle cx=\"100\" cy=\"155\" r=\"3\" class=\"accessory\"/><circle cx=\"100\" cy=\"165\" r=\"2\" class=\"accessory\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.accessory{fill:%237e57c2;}</style><circle cx=\"100\" cy=\"160\" r=\"5\" class=\"accessory\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.accessory{fill:%23673ab7;}</style><path d=\"M85,110 Q100,95 115,110\" stroke=\"%23673ab7\" stroke-width=\"3\" fill=\"none\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 300\'><style>.accessory{fill:%235e35b1;}</style><circle cx=\"100\" cy=\"105\" r=\"6\" class=\"accessory\"/></svg>")'
+                ]
+            },
+            
+            // База данных парней
+            guysDatabase: {
+                names: ["Алексей", "Максим", "Дмитрий", "Артем", "Игорь", "Кирилл", "Андрей", "Сергей", "Павел", "Владимир"],
+                professions: ["Программист", "Бизнесмен", "Врач", "Дизайнер", "Архитектор", "Инженер", "Юрист", "Маркетолог", "Преподаватель", "Спортсмен"],
+                personalities: ["Интроверт", "Экстраверт", "Лидер", "Творческий", "Заботливый", "Прагматичный", "Романтик", "Авантюрист"],
+                interests: [
+                    ["IT", "музыка", "игры"],
+                    ["бизнес", "спорт", "автомобили"],
+                    ["медицина", "путешествия", "кулинария"],
+                    ["искусство", "фотография", "вино"],
+                    ["наука", "техника", "чтение"],
+                    ["фитнес", "танцы", "йога"],
+                    ["кино", "театр", "литература"],
+                    ["природа", "походы", "рыбалка"]
+                ],
+                ages: [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
+                
+                // Визуальные типы парней
+                guyVisuals: [
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 250\'><style>.skin{fill:%23e6b87d;}.hair{fill:%238B4513;}.clothes{fill:%231e40af;}.eye{fill:%231e3a8a;}</style><rect x=\"70\" y=\"130\" width=\"60\" height=\"80\" class=\"clothes\"/><circle cx=\"100\" cy=\"90\" r=\"25\" class=\"skin\"/><ellipse cx=\"100\" cy=\"75\" rx=\"30\" ry=\"15\" class=\"hair\"/><circle cx=\"90\" cy=\"90\" r=\"4\" class=\"eye\"/><circle cx=\"110\" cy=\"90\" r=\"4\" class=\"eye\"/><line x1=\"90\" y1=\"105\" x2=\"110\" y2=\"105\" stroke=\"%238b4513\" stroke-width=\"2\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 250\'><style>.skin{fill:%23d4a574;}.hair{fill:%23A0522D;}.clothes{fill:%23dc2626;}.eye{fill:%230ea5e9;}</style><path d=\"M70,130 Q100,150 130,130 L130,210 Q100,190 70,210 Z\" class=\"clothes\"/><circle cx=\"100\" cy=\"90\" r=\"25\" class=\"skin\"/><ellipse cx=\"100\" cy=\"70\" rx=\"35\" ry=\"20\" class=\"hair\"/><circle cx=\"90\" cy=\"90\" r=\"5\" class=\"eye\"/><circle cx=\"110\" cy=\"90\" r=\"5\" class=\"eye\"/><path d=\"M85,100 Q100,110 115,100\" stroke=\"%238b4513\" stroke-width=\"2\" fill=\"none\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 250\'><style>.skin{fill:%23cd853f;}.hair{fill:%23D2691E;}.clothes{fill:%23059669;}.eye{fill:%2322c55e;}</style><rect x=\"75\" y=\"140\" width=\"50\" height=\"70\" rx=\"10\" class=\"clothes\"/><circle cx=\"100\" cy=\"90\" r=\"25\" class=\"skin\"/><path d=\"M70,80 Q100,60 130,80 L130,100 Q100,90 70,100 Z\" class=\"hair\"/><ellipse cx=\"90\" cy=\"90\" rx=\"4\" ry=\"6\" class=\"eye\"/><ellipse cx=\"110\" cy=\"90\" rx=\"4\" ry=\"6\" class=\"eye\"/><line x1=\"85\" y1=\"105\" x2=\"115\" y2=\"105\" stroke=\"%238b4513\" stroke-width=\"3\"/></svg>")',
+                    'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 250\'><style>.skin{fill:%23deb887;}.hair{fill:%23CD853F;}.clothes{fill:%237c3aed;}.eye{fill:%23854d0e;}</style><path d=\"M65,135 Q100,120 135,135 L135,210 Q100,200 65,210 Z\" class=\"clothes\"/><circle cx=\"100\" cy=\"90\" r=\"25\" class=\"skin\"/><ellipse cx=\"100\" cy=\"65\" rx=\"25\" ry=\"15\" class=\"hair\"/><circle cx=\"90\" cy=\"90\" r=\"4\" class=\"eye\"/><circle cx=\"110\" cy=\"90\" r=\"4\" class=\"eye\"/><path d=\"M85,100 Q100,95 115,100\" stroke=\"%238b4513\" stroke-width=\"2\" fill=\"none\"/></svg>")'
+                ]
+            }
         };
 
         // Инициализация игры
         function initGame() {
             setupEventListeners();
             updateCharacterVisual();
+            generateGuys();
             resetDate();
         }
 
         // Настройка обработчиков событий
         function setupEventListeners() {
             // Прически
-            document.querySelectorAll('#hairOptions .option-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('#hairOptions .option-item').forEach(i => i.classList.remove('selected'));
-                    item.classList.add('selected');
-                    gameData.girl.hair = parseInt(item.dataset.hair);
+            document.querySelectorAll('#hairOptions .option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('#hairOptions .option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    GAME_DATA.zlata.hair = parseInt(option.dataset.hair);
                     updateCharacterVisual();
                 });
             });
 
             // Платья
-            document.querySelectorAll('#dressOptions .option-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('#dressOptions .option-item').forEach(i => i.classList.remove('selected'));
-                    item.classList.add('selected');
-                    gameData.girl.dress = parseInt(item.dataset.dress);
+            document.querySelectorAll('#dressOptions .option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('#dressOptions .option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    GAME_DATA.zlata.dress = parseInt(option.dataset.dress);
                     updateCharacterVisual();
                 });
             });
 
             // Макияж
-            document.querySelectorAll('#makeupOptions .option-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('#makeupOptions .option-item').forEach(i => i.classList.remove('selected'));
-                    item.classList.add('selected');
-                    gameData.girl.makeup = parseInt(item.dataset.makeup);
+            document.querySelectorAll('#makeupOptions .option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('#makeupOptions .option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    GAME_DATA.zlata.makeup = parseInt(option.dataset.makeup);
                     updateCharacterVisual();
                 });
             });
 
             // Аксессуары
-            document.querySelectorAll('#accessoryOptions .option-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('#accessoryOptions .option-item').forEach(i => i.classList.remove('selected'));
-                    item.classList.add('selected');
-                    gameData.girl.accessory = parseInt(item.dataset.accessory);
+            document.querySelectorAll('#accessoryOptions .option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('#accessoryOptions .option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    GAME_DATA.zlata.accessory = parseInt(option.dataset.accessory);
                     updateCharacterVisual();
                 });
             });
 
             // Настроение
-            document.querySelectorAll('.mood-dot').forEach(dot => {
-                dot.addEventListener('click', () => {
-                    document.querySelectorAll('.mood-dot').forEach(d => d.classList.remove('active'));
-                    dot.classList.add('active');
-                    gameData.girl.mood = parseInt(dot.dataset.mood);
+            document.querySelectorAll('.mood-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.mood-option').forEach(o => o.classList.remove('active'));
+                    option.classList.add('active');
+                    const mood = parseInt(option.dataset.mood);
+                    GAME_DATA.zlata.mood = mood;
+                    document.getElementById('currentMoodText').textContent = GAME_DATA.moods[mood - 1];
+                    updateMoodVisual();
                 });
             });
 
             // Кнопки управления
-            document.getElementById('findDateBtn').addEventListener('click', findDate);
+            document.getElementById('findDateBtn').addEventListener('click', startDate);
             document.getElementById('nextDateBtn').addEventListener('click', nextDate);
             document.getElementById('resetBtn').addEventListener('click', resetGame);
         }
 
-        // Обновление визуала персонажа
-        function updateCharacterVisual() {
-            const canvas = document.getElementById('characterCanvas');
-            canvas.innerHTML = '';
+        // Генерация 3 случайных парней
+        function generateGuys() {
+            GAME_DATA.generatedGuys = [];
             
-            // Создаем визуальные элементы для персонажа
-            const parts = ['dress', 'hair', 'makeup', 'accessory'];
-            
-            parts.forEach(part => {
-                const div = document.createElement('div');
-                div.className = 'character-part';
-                div.style.backgroundImage = `url('https://via.placeholder.com/300x450/1e272e/ffffff?text=${part.toUpperCase()}+${gameData.girl[part]}')`;
-                canvas.appendChild(div);
-            });
-            
-            // Добавляем текст описания
-            const description = document.createElement('div');
-            description.style.cssText = `
-                position: absolute;
-                bottom: 10px;
-                left: 10px;
-                right: 10px;
-                background: rgba(0,0,0,0.7);
-                padding: 10px;
-                border-radius: 5px;
-                font-size: 0.9rem;
-                color: #fff;
-                text-align: center;
-            `;
-            description.textContent = `Настроение: ${gameData.moods[gameData.girl.mood - 1]}`;
-            canvas.appendChild(description);
+            for (let i = 0; i < 3; i++) {
+                const guy = {
+                    id: i + 1,
+                    name: GAME_DATA.guysDatabase.names[Math.floor(Math.random() * GAME_DATA.guysDatabase.names.length)],
+                    profession: GAME_DATA.guysDatabase.professions[Math.floor(Math.random() * GAME_DATA.guysDatabase.professions.length)],
+                    personality: GAME_DATA.guysDatabase.personalities[Math.floor(Math.random() * GAME_DATA.guysDatabase.personalities.length)],
+                    age: GAME_DATA.guysDatabase.ages[Math.floor(Math.random() * GAME_DATA.guysDatabase.ages.length)],
+                    interests: [...GAME_DATA.guysDatabase.interests[Math.floor(Math.random() * GAME_DATA.guysDatabase.interests.length)]],
+                    visual: GAME_DATA.guysDatabase.guyVisuals[Math.floor(Math.random() * GAME_DATA.guysDatabase.guyVisuals.length)],
+                    
+                    // Вопросы в зависимости от профессии
+                    questions: getQuestionsByProfession(),
+                    
+                    // Вопросы для Златы
+                    zlataQuestions: getZlataQuestions()
+                };
+                
+                GAME_DATA.generatedGuys.push(guy);
+            }
         }
 
-        // Поиск свидания
-        function findDate() {
-            // Случайный выбор парня
-            const randomIndex = Math.floor(Math.random() * gameData.guys.length);
-            gameData.currentGuy = gameData.guys[randomIndex];
-            gameData.currentQuestionIndex = 0;
-            gameData.compatibility = 0;
-            gameData.datePhase = 1;
+        // Получение вопросов по профессии
+        function getQuestionsByProfession() {
+            const profession = GAME_DATA.currentGuy ? GAME_DATA.currentGuy.profession : "Бизнесмен";
             
-            // Показываем информацию о парне
-            document.getElementById('currentGuy').classList.remove('hidden');
-            document.getElementById('guyName').textContent = gameData.currentGuy.name;
-            document.getElementById('guyProfession').textContent = gameData.currentGuy.profession;
-            document.getElementById('guyPersonality').textContent = gameData.currentGuy.personality;
-            document.getElementById('guyAge').textContent = gameData.currentGuy.age + ' лет';
-            document.getElementById('guyInterests').textContent = gameData.currentGuy.interests.join(', ');
+            const questions = {
+                "Программист": [
+                    "Как относишься к искусственному интеллекту и технологиям будущего?",
+                    "Важно ли для тебя постоянно учиться новому?"
+                ],
+                "Бизнесмен": [
+                    "Что для тебя важнее в бизнесе: прибыль или репутация?",
+                    "Как относишься к риску в принятии решений?"
+                ],
+                "Врач": [
+                    "Что для тебя важнее: карьера врача или личная жизнь?",
+                    "Как справляешься со стрессом тяжелой работы?"
+                ],
+                "Дизайнер": [
+                    "Что для тебя важнее в дизайне: красота или функциональность?",
+                    "Где черпаешь вдохновение для своих работ?"
+                ],
+                "Архитектор": [
+                    "Какой архитектурный стиль тебе ближе всего?",
+                    "Что важнее в архитектуре: эстетика или практичность?"
+                ],
+                "Инженер": [
+                    "Любишь ли решать сложные технические задачи?",
+                    "Как относишься к инновациям в технике?"
+                ],
+                "Юрист": [
+                    "Что для тебя важнее: буква закона или справедливость?",
+                    "Часто ли приходится идти на компромиссы в работе?"
+                ],
+                "Маркетолог": [
+                    "Как находишь подход к разным типам клиентов?",
+                    "Что важнее в маркетинге: креатив или аналитика?"
+                ],
+                "Преподаватель": [
+                    "Что самое сложное в работе преподавателя?",
+                    "Как мотивируешь студентов учиться?"
+                ],
+                "Спортсмен": [
+                    "Как справляешься с поражениями?",
+                    "Что важнее: победа или участие?"
+                ]
+            };
             
-            // Обновляем изображение парня
-            document.getElementById('guyImage').style.backgroundImage = 
-                `url('https://via.placeholder.com/300x300/1e272e/74b9ff?text=${gameData.currentGuy.name}')`;
+            return questions[profession] || [
+                "Что для тебя самое важное в жизни?",
+                "Какие у тебя планы на будущее?"
+            ];
+        }
+
+        // Получение вопросов для Златы
+        function getZlataQuestions() {
+            return [
+                "Как проводишь свободное время?",
+                "Любишь ли путешествовать? Куда?",
+                "Что ценишь в людях больше всего?",
+                "Есть ли у тебя мечта или цель?",
+                "Как относишься к семье и детям?",
+                "Что для тебя значит дружба?",
+                "Любишь ли животных? Есть ли питомец?",
+                "Как справляешься со сложными ситуациями?",
+                "Что тебя вдохновляет и мотивирует?",
+                "Какой твой любимый способ отдыха?"
+            ];
+        }
+
+        // Обновление визуала Златы
+        function updateCharacterVisual() {
+            const hairLayer = document.getElementById('hairLayer');
+            const dressLayer = document.getElementById('dressLayer');
+            const makeupLayer = document.getElementById('makeupLayer');
+            const accessoryLayer = document.getElementById('accessoryLayer');
+            
+            hairLayer.style.backgroundImage = GAME_DATA.visualStyles.hair[GAME_DATA.zlata.hair - 1];
+            dressLayer.style.backgroundImage = GAME_DATA.visualStyles.dresses[GAME_DATA.zlata.dress - 1];
+            makeupLayer.style.backgroundImage = GAME_DATA.visualStyles.makeup[GAME_DATA.zlata.makeup - 1];
+            accessoryLayer.style.backgroundImage = GAME_DATA.visualStyles.accessories[GAME_DATA.zlata.accessory - 1];
+            
+            updateMoodVisual();
+        }
+
+        // Обновление визуала настроения
+        function updateMoodVisual() {
+            // Здесь можно добавить изменение выражения лица в зависимости от настроения
+            const mood = GAME_DATA.zlata.mood;
+            // В реальной игре здесь бы менялось SVG выражение лица
+        }
+
+        // Начать свидание
+        function startDate() {
+            if (GAME_DATA.generatedGuys.length === 0) {
+                alert("Все кандидаты просмотрены! Начните новую игру.");
+                return;
+            }
+            
+            GAME_DATA.currentGuy = GAME_DATA.generatedGuys.shift();
+            GAME_DATA.currentQuestionIndex = 0;
+            GAME_DATA.compatibility = 0;
+            GAME_DATA.datePhase = 1;
+            GAME_DATA.askedQuestions = 0;
+            
+            // Показываем парня
+            showCurrentGuy();
+            
+            // Обновляем фазу
+            updateDatePhase();
             
             // Показываем первый вопрос
-            showQuestion();
+            showNextQuestion();
             
             // Обновляем кнопки
             document.getElementById('findDateBtn').classList.add('hidden');
             document.getElementById('nextDateBtn').classList.remove('hidden');
+            document.getElementById('compatibilitySection').classList.remove('hidden');
         }
 
-        // Показать вопрос
-        function showQuestion() {
-            const dialogMessage = document.getElementById('dialogMessage');
-            const responsesDiv = document.getElementById('responses');
+        // Показать текущего парня
+        function showCurrentGuy() {
+            const section = document.getElementById('currentGuySection');
+            section.classList.remove('hidden');
             
-            if (gameData.datePhase === 1) {
-                // Вопросы от парня
-                if (gameData.currentQuestionIndex < gameData.currentGuy.questions.length) {
-                    dialogMessage.textContent = `${gameData.currentGuy.name}: ${gameData.currentGuy.questions[gameData.currentQuestionIndex]}`;
-                    
-                    // Генерируем ответы в зависимости от настроения и внешности
-                    generateResponses();
+            document.getElementById('guyName').textContent = GAME_DATA.currentGuy.name;
+            document.getElementById('guyProfession').textContent = GAME_DATA.currentGuy.profession;
+            document.getElementById('guyAge').textContent = GAME_DATA.currentGuy.age + ' лет';
+            document.getElementById('guyPersonality').textContent = GAME_DATA.currentGuy.personality;
+            document.getElementById('guyInterests').textContent = GAME_DATA.currentGuy.interests.join(', ');
+            
+            const guyVisual = document.getElementById('guyVisual');
+            guyVisual.style.backgroundImage = GAME_DATA.currentGuy.visual;
+        }
+
+        // Обновить фазу свидания
+        function updateDatePhase() {
+            const steps = document.querySelectorAll('.phase-step');
+            steps.forEach((step, index) => {
+                if (index < GAME_DATA.datePhase) {
+                    step.classList.add('active');
                 } else {
-                    // Переходим к вопросам девушки
-                    gameData.datePhase = 2;
-                    gameData.currentQuestionIndex = 0;
-                    showQuestion();
+                    step.classList.remove('active');
                 }
-            } else if (gameData.datePhase === 2) {
-                // Вопросы от девушки
-                if (gameData.currentQuestionIndex < gameData.currentGuy.girlQuestions.length) {
-                    dialogMessage.textContent = `${gameData.girl.name}: ${gameData.currentGuy.girlQuestions[gameData.currentQuestionIndex]}`;
-                    generateGuyResponses();
+            });
+        }
+
+        // Показать следующий вопрос
+        function showNextQuestion() {
+            const messageText = document.getElementById('messageText');
+            const responsesDiv = document.getElementById('responses');
+            const dialogHeader = document.querySelector('.dialog-header');
+            
+            responsesDiv.innerHTML = '';
+            
+            if (GAME_DATA.datePhase === 1) {
+                // Парень задает вопрос
+                if (GAME_DATA.currentQuestionIndex < GAME_DATA.currentGuy.questions.length) {
+                    const question = GAME_DATA.currentGuy.questions[GAME_DATA.currentQuestionIndex];
+                    
+                    dialogHeader.innerHTML = `
+                        <div class="speaker-avatar guy-avatar-small">${GAME_DATA.currentGuy.name.charAt(0)}</div>
+                        <div class="speaker-name">${GAME_DATA.currentGuy.name}</div>
+                    `;
+                    
+                    messageText.textContent = question;
+                    messageText.className = 'message-content';
+                    
+                    // Генерируем ответы Златы
+                    generateZlataResponses(question);
+                    
+                } else {
+                    // Переходим ко второй фазе
+                    GAME_DATA.datePhase = 2;
+                    GAME_DATA.currentQuestionIndex = 0;
+                    updateDatePhase();
+                    showNextQuestion();
+                }
+                
+            } else if (GAME_DATA.datePhase === 2) {
+                // Злата задает вопросы
+                if (GAME_DATA.askedQuestions < 2) {
+                    dialogHeader.innerHTML = `
+                        <div class="speaker-avatar zlata-avatar">З</div>
+                        <div class="speaker-name zlata-name">Злата</div>
+                    `;
+                    
+                    messageText.textContent = "Выбери вопрос, который хочешь задать:";
+                    messageText.className = 'message-content zlata-message';
+                    
+                    // Показываем варианты вопросов
+                    generateQuestionOptions();
+                    
                 } else {
                     // Завершение свидания
+                    GAME_DATA.datePhase = 3;
+                    updateDatePhase();
                     endDate();
                 }
             }
         }
 
-        // Генерация ответов девушки
-        function generateResponses() {
+        // Генерация ответов Златы
+        function generateZlataResponses(question) {
             const responsesDiv = document.getElementById('responses');
-            responsesDiv.innerHTML = '';
+            const mood = GAME_DATA.zlata.mood;
             
-            // Варианты ответов в зависимости от настроения
-            const moodResponses = {
-                1: [ // Злое
-                    "Не твое дело!",
-                    "Зачем тебе это знать?",
-                    "Что ты вообще себе позволяешь?"
-                ],
-                2: [ // Раздраженное
-                    "Не очень хочется об этом говорить",
-                    "Давай сменим тему",
+            // Разные ответы в зависимости от настроения
+            let responses = [];
+            
+            if (mood === 1) { // Злая
+                responses = [
+                    "Не вижу смысла в этом разговоре.",
+                    "Мне не интересна эта тема.",
                     "Может, поговорим о чем-то другом?"
-                ],
-                3: [ // Нейтральное
-                    "Думаю, что...",
-                    "Пожалуй...",
-                    "Наверное..."
-                ],
-                4: [ // Спокойное
-                    "Я считаю, что...",
-                    "По моему мнению...",
-                    "Мне кажется..."
-                ],
-                5: [ // Счастливое
-                    "О, это интересно! Думаю, что...",
-                    "Я обожаю такие темы! Мне кажется...",
-                    "Как здорово, что ты спросил! Я считаю..."
-                ]
-            };
-            
-            const currentMoodResponses = moodResponses[gameData.girl.mood];
-            
-            // Создаем 3 варианта ответа
-            for (let i = 0; i < 3; i++) {
-                const responseBtn = document.createElement('button');
-                responseBtn.className = 'response-btn';
-                responseBtn.textContent = currentMoodResponses[i];
-                
-                // Рассчитываем совместимость ответа
-                const compatibilityScore = calculateCompatibility(i);
-                
-                responseBtn.addEventListener('click', () => {
-                    // Реакция парня
-                    let reaction;
-                    if (compatibilityScore > 7) {
-                        reaction = gameData.currentGuy.responses.positive[
-                            Math.floor(Math.random() * gameData.currentGuy.responses.positive.length)
-                        ];
-                    } else if (compatibilityScore > 4) {
-                        reaction = gameData.currentGuy.responses.neutral[
-                            Math.floor(Math.random() * gameData.currentGuy.responses.neutral.length)
-                        ];
-                    } else {
-                        reaction = gameData.currentGuy.responses.negative[
-                            Math.floor(Math.random() * gameData.currentGuy.responses.negative.length)
-                        ];
-                    }
-                    
-                    // Обновляем совместимость
-                    gameData.compatibility += compatibilityScore;
-                    updateCompatibility();
-                    
-                    // Показываем реакцию
-                    document.getElementById('dialogMessage').textContent = 
-                        `${gameData.currentGuy.name}: ${reaction}`;
-                    
-                    // Переходим к следующему вопросу
-                    setTimeout(() => {
-                        gameData.currentQuestionIndex++;
-                        showQuestion();
-                    }, 2000);
-                });
-                
-                responsesDiv.appendChild(responseBtn);
+                ];
+            } else if (mood === 2) { // Раздраженная
+                responses = [
+                    "Не уверена, что хочу обсуждать это.",
+                    "Думаю, это не так уж важно.",
+                    "Мне сложно ответить на этот вопрос."
+                ];
+            } else if (mood === 3) { // Нейтральная
+                responses = [
+                    "Интересный вопрос. Думаю, что...",
+                    "Полагаю, это зависит от ситуации.",
+                    "Наверное, можно сказать, что..."
+                ];
+            } else if (mood === 4) { // Спокойная
+                responses = [
+                    "Я считаю, что это важно для развития.",
+                    "Думаю, это интересная тема для обсуждения.",
+                    "Мне кажется, здесь много нюансов."
+                ];
+            } else { // Счастливая
+                responses = [
+                    "О, это прекрасный вопрос! Я считаю...",
+                    "Как интересно! Думаю, что...",
+                    "Я обожаю такие темы! Мне кажется..."
+                ];
             }
-        }
-
-        // Генерация ответов парня
-        function generateGuyResponses() {
-            const responsesDiv = document.getElementById('responses');
-            responsesDiv.innerHTML = '';
             
-            // Ответы парня в зависимости от его характера
-            const personalityResponses = {
-                "интроверт": [
-                    "Я предпочитаю тихие вечера дома",
-                    "Люблю проводить время наедине с собой",
-                    "Большие компании утомляют меня"
-                ],
-                "лидер": [
-                    "Всегда иду к своей цели!",
-                    "Люблю принимать решения",
-                    "Важно быть первым во всем"
-                ],
-                "творческий": [
-                    "Ищу вдохновение во всем!",
-                    "Красота спасает мир",
-                    "Творчество - моя жизнь"
-                ],
-                "заботливый": [
-                    "Стараюсь помогать всем",
-                    "Важно заботиться о близких",
-                    "Люблю делать людей счастливыми"
-                ],
-                "активный": [
-                    "Не могу сидеть на месте!",
-                    "Движение - это жизнь",
-                    "Люблю адреналин"
-                ]
-            };
-            
-            const currentResponses = personalityResponses[gameData.currentGuy.personality] || 
-                                   ["Интересный вопрос...", "Давай подумаем...", "Хм..."];
-            
-            // Создаем ответы парня
-            currentResponses.forEach((response, index) => {
+            // Добавляем ответы
+            responses.forEach((response, index) => {
                 const responseBtn = document.createElement('button');
-                responseBtn.className = 'response-btn';
+                responseBtn.className = 'response-option';
                 responseBtn.textContent = response;
                 
                 responseBtn.addEventListener('click', () => {
-                    // Рассчитываем дополнительную совместимость
-                    const extraScore = calculateGuyResponseCompatibility(index);
-                    gameData.compatibility += extraScore;
-                    updateCompatibility();
+                    // Показываем ответ Златы
+                    const dialogHeader = document.querySelector('.dialog-header');
+                    dialogHeader.innerHTML = `
+                        <div class="speaker-avatar zlata-avatar">З</div>
+                        <div class="speaker-name zlata-name">Злата</div>
+                    `;
                     
-                    // Переходим к следующему вопросу
-                    gameData.currentQuestionIndex++;
+                    document.getElementById('messageText').textContent = response;
+                    document.getElementById('messageText').className = 'message-content zlata-message';
+                    
+                    // Показываем реакцию парня
                     setTimeout(() => {
-                        showQuestion();
+                        showGuyReaction(index);
                     }, 1500);
+                    
+                    responsesDiv.innerHTML = '';
                 });
                 
                 responsesDiv.appendChild(responseBtn);
             });
         }
 
-        // Расчет совместимости ответа
-        function calculateCompatibility(responseIndex) {
-            let score = 5; // Базовая совместимость
+        // Показать реакцию парня
+        function showGuyReaction(responseIndex) {
+            const dialogHeader = document.querySelector('.dialog-header');
+            dialogHeader.innerHTML = `
+                <div class="speaker-avatar guy-avatar-small">${GAME_DATA.currentGuy.name.charAt(0)}</div>
+                <div class="speaker-name">${GAME_DATA.currentGuy.name}</div>
+            `;
             
-            // Влияние настроения
-            if (gameData.girl.mood === 5) score += 3; // Счастливая
-            else if (gameData.girl.mood === 1) score -= 2; // Злая
+            // Реакции в зависимости от профессии и характера
+            let reactions = [];
+            const personality = GAME_DATA.currentGuy.personality;
             
-            // Влияние внешности на разные типы парней
-            if (gameData.currentGuy.personality === "творческий") {
-                if (gameData.girl.dress === 5 || gameData.girl.makeup === 3) score += 2;
-            } else if (gameData.currentGuy.personality === "деловой") {
-                if (gameData.girl.dress === 4) score += 2;
-            } else if (gameData.currentGuy.personality === "активный") {
-                if (gameData.girl.dress === 3) score += 2;
+            if (personality === "Интроверт" || personality === "Прагматичный") {
+                reactions = [
+                    "Понятно. Спасибо за ответ.",
+                    "Интересная точка зрения.",
+                    "Заметим это."
+                ];
+            } else if (personality === "Экстраверт" || personality === "Авантюрист") {
+                reactions = [
+                    "Отлично! Я так и думал!",
+                    "Вот это да! Мы похожи!",
+                    "Здорово! Ты меня понимаешь!"
+                ];
+            } else if (personality === "Романтик" || personality === "Творческий") {
+                reactions = [
+                    "Как красиво сказано!",
+                    "Ты особенная, я это чувствую.",
+                    "Восхитительный ответ!"
+                ];
+            } else {
+                reactions = [
+                    "Спасибо за искренность.",
+                    "Ценю твое мнение.",
+                    "Рад был услышать твои мысли."
+                ];
             }
             
-            // Случайный фактор
-            score += Math.floor(Math.random() * 3);
+            const reaction = reactions[Math.floor(Math.random() * reactions.length)];
+            document.getElementById('messageText').textContent = reaction;
+            document.getElementById('messageText').className = 'message-content';
             
-            return Math.max(1, Math.min(10, score));
+            // Обновляем совместимость
+            updateCompatibility(responseIndex);
+            
+            // Переходим к следующему вопросу
+            setTimeout(() => {
+                GAME_DATA.currentQuestionIndex++;
+                showNextQuestion();
+            }, 2000);
         }
 
-        // Расчет совместимости ответа парня
-        function calculateGuyResponseCompatibility(responseIndex) {
-            let score = 3;
+        // Генерация вариантов вопросов для Златы
+        function generateQuestionOptions() {
+            const responsesDiv = document.getElementById('responses');
             
-            // Зависит от настроения девушки
-            if (gameData.girl.mood === 5) score += 2;
-            if (gameData.girl.mood === 1) score -= 1;
+            // Выбираем 3 случайных вопроса
+            const availableQuestions = [...GAME_DATA.currentGuy.zlataQuestions];
+            const selectedQuestions = [];
             
-            return score;
+            while (selectedQuestions.length < 3 && availableQuestions.length > 0) {
+                const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+                selectedQuestions.push(availableQuestions[randomIndex]);
+                availableQuestions.splice(randomIndex, 1);
+            }
+            
+            selectedQuestions.forEach((question, index) => {
+                const questionBtn = document.createElement('button');
+                questionBtn.className = 'response-option zlata-question';
+                questionBtn.textContent = question;
+                
+                questionBtn.addEventListener('click', () => {
+                    // Показываем вопрос
+                    document.getElementById('messageText').textContent = question;
+                    
+                    // Показываем ответ парня
+                    setTimeout(() => {
+                        showGuyAnswerToQuestion(question, index);
+                    }, 1500);
+                    
+                    responsesDiv.innerHTML = '';
+                });
+                
+                responsesDiv.appendChild(questionBtn);
+            });
         }
 
-        // Обновление показателя совместимости
-        function updateCompatibility() {
-            const maxScore = 50; // Максимально возможная совместимость
-            const percentage = Math.min(100, Math.round((gameData.compatibility / maxScore) * 100));
+        // Показать ответ парня на вопрос Златы
+        function showGuyAnswerToQuestion(question, questionIndex) {
+            const dialogHeader = document.querySelector('.dialog-header');
+            dialogHeader.innerHTML = `
+                <div class="speaker-avatar guy-avatar-small">${GAME_DATA.currentGuy.name.charAt(0)}</div>
+                <div class="speaker-name">${GAME_DATA.currentGuy.name}</div>
+            `;
             
-            document.getElementById('compatibilityFill').style.width = `${percentage}%`;
-            document.getElementById('compatibilityText').textContent = `Совместимость: ${percentage}%`;
+            // Ответы в зависимости от характера
+            let answers = [];
+            const personality = GAME_DATA.currentGuy.personality;
+            const profession = GAME_DATA.currentGuy.profession;
             
-            // Изменяем цвет в зависимости от процента
+            if (question.includes("свободное время") || question.includes("отдых")) {
+                if (personality === "Спортсмен" || profession === "Спортсмен") {
+                    answers = ["Люблю активный отдых: бег, тренажерный зал, баскетбол.", "Чаще всего тренируюсь или смотрю спортивные матчи.", "Отдых для меня - это смена деятельности, чаще спортивной."];
+                } else if (personality === "Творческий") {
+                    answers = ["Рисую, фотографирую, хожу на выставки.", "Ищу вдохновение в искусстве и природе.", "Люблю посещать музеи и галереи."];
+                } else {
+                    answers = ["Читаю книги, смотрю фильмы, встречаюсь с друзьями.", "Стараюсь проводить время с пользой: учусь новому.", "Люблю просто отдыхать дома после работы."];
+                }
+            } else if (question.includes("путешеств")) {
+                answers = ["Люблю открывать новые места, был уже во многих странах.", "Путешествия - моя страсть, планирую посетить еще много стран.", "Стараюсь путешествовать хотя бы раз в год."];
+            } else if (question.includes("цен")) {
+                if (personality === "Прагматичный") {
+                    answers = ["Ценю честность, надежность и ум.", "Для меня важны ум и целеустремленность человека.", "Ценю людей, которые знают, чего хотят от жизни."];
+                } else {
+                    answers = ["Ценю искренность, доброту и чувство юмора.", "Для меня важны душевные качества человека.", "Ценю людей, с которыми можно быть собой."];
+                }
+            } else {
+                // Общие ответы
+                answers = [
+                    "Интересный вопрос... Думаю, что...",
+                    "Сложно ответить однозначно, но...",
+                    "Я считаю, что в этом вопросе важно..."
+                ];
+            }
+            
+            const answer = answers[Math.floor(Math.random() * answers.length)];
+            document.getElementById('messageText').textContent = answer;
+            
+            // Обновляем совместимость
+            updateQuestionCompatibility(questionIndex);
+            
+            // Переходим к следующему
+            setTimeout(() => {
+                GAME_DATA.askedQuestions++;
+                showNextQuestion();
+            }, 2500);
+        }
+
+        // Обновление совместимости после ответа Златы
+        function updateCompatibility(responseIndex) {
+            let score = 5; // Базовая оценка
+            
+            // Влияние настроения
+            if (GAME_DATA.zlata.mood === 5) score += 3; // Счастливая
+            else if (GAME_DATA.zlata.mood === 1) score -= 2; // Злая
+            
+            // Влияние образа
+            if (GAME_DATA.currentGuy.personality === "Творческий") {
+                if (GAME_DATA.zlata.dress === 5 || GAME_DATA.zlata.makeup === 3) score += 2;
+            } else if (GAME_DATA.currentGuy.personality === "Прагматичный") {
+                if (GAME_DATA.zlata.dress === 4) score += 2;
+            }
+            
+            // Влияние ответа
+            if (responseIndex === 0) score += 2; // Первый ответ обычно лучший
+            else if (responseIndex === 2) score -= 1;
+            
+            GAME_DATA.compatibility += Math.max(1, Math.min(10, score));
+            updateCompatibilityDisplay();
+        }
+
+        // Обновление совместимости после вопроса Златы
+        function updateQuestionCompatibility(questionIndex) {
+            const extraScore = 3 + Math.floor(Math.random() * 4);
+            GAME_DATA.compatibility += extraScore;
+            updateCompatibilityDisplay();
+        }
+
+        // Обновление отображения совместимости
+        function updateCompatibilityDisplay() {
+            const maxScore = 50;
+            const percentage = Math.min(100, Math.round((GAME_DATA.compatibility / maxScore) * 100));
+            
+            document.getElementById('compatibilityValue').textContent = percentage + '%';
+            document.getElementById('compatibilityFill').style.width = percentage + '%';
+            
+            // Меняем цвет в зависимости от процента
             const fillElement = document.getElementById('compatibilityFill');
             if (percentage > 70) {
                 fillElement.style.background = "linear-gradient(90deg, #32ff7e, #00b894)";
-                document.getElementById('compatibilityText').style.color = "#32ff7e";
+                document.getElementById('compatibilityValue').style.background = "linear-gradient(45deg, #32ff7e, #00b894)";
             } else if (percentage > 40) {
                 fillElement.style.background = "linear-gradient(90deg, #ff9f1a, #fdcb6e)";
-                document.getElementById('compatibilityText').style.color = "#ff9f1a";
+                document.getElementById('compatibilityValue').style.background = "linear-gradient(45deg, #ff9f1a, #fdcb6e)";
             } else {
                 fillElement.style.background = "linear-gradient(90deg, #ff3838, #ff7675)";
-                document.getElementById('compatibilityText').style.color = "#ff3838";
+                document.getElementById('compatibilityValue').style.background = "linear-gradient(45deg, #ff3838, #ff7675)";
             }
         }
 
         // Завершение свидания
         function endDate() {
-            const percentage = Math.min(100, Math.round((gameData.compatibility / 50) * 100));
+            const percentage = Math.min(100, Math.round((GAME_DATA.compatibility / 50) * 100));
             let message;
             
             if (percentage > 80) {
-                message = `${gameData.currentGuy.name}: Это было потрясающе! Мы так хорошо подходим друг другу. Давай встретимся еще?`;
+                message = `${GAME_DATA.currentGuy.name}: Это было потрясающе! Мы так хорошо подходим друг другу. Дай мне свой номер телефона?`;
             } else if (percentage > 60) {
-                message = `${gameData.currentGuy.name}: Было приятно пообщаться. Возможно, мы могли бы встретиться еще раз.`;
+                message = `${GAME_DATA.currentGuy.name}: Было очень приятно пообщаться. Думаю, мы могли бы встретиться еще раз.`;
             } else if (percentage > 40) {
-                message = `${gameData.currentGuy.name}: Спасибо за вечер. Было... интересно.`;
+                message = `${GAME_DATA.currentGuy.name}: Спасибо за вечер. Было интересно. Удачи тебе!`;
             } else {
-                message = `${gameData.currentGuy.name}: Кажется, мы не очень подходим друг другу. Всего хорошего.`;
+                message = `${GAME_DATA.currentGuy.name}: Кажется, мы слишком разные. Спасибо за свидание.`;
             }
             
-            document.getElementById('dialogMessage').textContent = message;
+            const dialogHeader = document.querySelector('.dialog-header');
+            dialogHeader.innerHTML = `
+                <div class="speaker-avatar guy-avatar-small">${GAME_DATA.currentGuy.name.charAt(0)}</div>
+                <div class="speaker-name">${GAME_DATA.currentGuy.name}</div>
+            `;
+            
+            document.getElementById('messageText').textContent = message;
             document.getElementById('responses').innerHTML = '';
-            gameData.datePhase = 3;
+            
+            // Обновляем кнопку, если парни закончились
+            if (GAME_DATA.generatedGuys.length === 0) {
+                document.getElementById('nextDateBtn').textContent = "Новая игра";
+            }
         }
 
-        // Следующий парень
+        // Следующий кандидат
         function nextDate() {
-            findDate();
+            if (GAME_DATA.generatedGuys.length === 0) {
+                resetGame();
+                return;
+            }
+            
+            resetDate();
+            startDate();
         }
 
         // Сброс свидания
         function resetDate() {
-            document.getElementById('currentGuy').classList.add('hidden');
-            document.getElementById('findDateBtn').classList.remove('hidden');
-            document.getElementById('nextDateBtn').classList.add('hidden');
-            document.getElementById('dialogMessage').textContent = "Создай свой образ и нажми 'Найти свидание' чтобы начать!";
+            GAME_DATA.currentQuestionIndex = 0;
+            GAME_DATA.compatibility = 0;
+            GAME_DATA.datePhase = 0;
+            GAME_DATA.askedQuestions = 0;
+            
+            document.getElementById('compatibilitySection').classList.add('hidden');
             document.getElementById('responses').innerHTML = '';
-            document.getElementById('compatibilityFill').style.width = '0%';
-            document.getElementById('compatibilityText').textContent = 'Совместимость: 0%';
-            gameData.currentGuy = null;
-            gameData.currentQuestionIndex = 0;
-            gameData.compatibility = 0;
-            gameData.datePhase = 0;
+            
+            updateDatePhase();
         }
 
-        // Полный сброс игры
+        // Новая игра
         function resetGame() {
-            // Сброс выбора девушки
-            gameData.girl = {
+            // Сброс Златы
+            GAME_DATA.zlata = {
                 hair: 1,
                 dress: 1,
                 makeup: 1,
                 accessory: 1,
                 mood: 3,
-                name: "София"
+                name: "Злата"
             };
             
-            // Сброс выбранных опций
-            document.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
-            document.querySelectorAll('.option-item').forEach(item => {
-                if (item.dataset.hair === '1' || item.dataset.dress === '1' || 
-                    item.dataset.makeup === '1' || item.dataset.accessory === '1') {
-                    item.classList.add('selected');
+            // Сброс выбора
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+                if (option.dataset.hair === '1' || option.dataset.dress === '1' || 
+                    option.dataset.makeup === '1' || option.dataset.accessory === '1') {
+                    option.classList.add('selected');
                 }
             });
             
             // Сброс настроения
-            document.querySelectorAll('.mood-dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === 2);
+            document.querySelectorAll('.mood-option').forEach((option, index) => {
+                option.classList.toggle('active', index === 2);
             });
             
+            document.getElementById('currentMoodText').textContent = "Нейтральная";
+            
+            // Генерация новых парней
+            generateGuys();
+            
+            // Сброс интерфейса
             updateCharacterVisual();
             resetDate();
+            
+            document.getElementById('currentGuySection').classList.add('hidden');
+            document.getElementById('findDateBtn').classList.remove('hidden');
+            document.getElementById('nextDateBtn').classList.add('hidden');
+            document.getElementById('nextDateBtn').textContent = "Следующий кандидат";
+            
+            const dialogHeader = document.querySelector('.dialog-header');
+            dialogHeader.innerHTML = `
+                <div class="speaker-avatar zlata-avatar">З</div>
+                <div class="speaker-name zlata-name">Злата</div>
+            `;
+            
+            document.getElementById('messageText').textContent = "Создай свой образ для свидания и нажми 'Найти свидание' чтобы начать!";
+            document.getElementById('messageText').className = 'message-content zlata-message';
         }
 
-        // Запуск игры при загрузке страницы
+        // Запуск игры
         document.addEventListener('DOMContentLoaded', initGame);
     </script>
 </body>
